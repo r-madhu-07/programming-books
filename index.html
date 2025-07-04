@@ -1,9 +1,21 @@
-<div class="container py-5">
-  <h1 class="text-center mb-4">📚 Programming Books</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Programming Books Catalog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+<div class="container py-5">
+  <h1 class="text-center mb-3">📚 Programming Books</h1>
+
+  <!-- GitHub Link -->
   <div class="text-center mb-4">
     <a href="https://github.com/EbookFoundation/free-programming-books" target="_blank" class="btn btn-primary">
-      Browse More on GitHub
+      Explore More on GitHub
     </a>
   </div>
 
@@ -23,12 +35,58 @@
 
   <!-- Books Grid -->
   <div class="row" id="bookList">
-    <!-- Cards will be rendered here -->
+    <!-- Book cards will be rendered here -->
   </div>
 </div>
 
-<footer class="text-center py-4">
-  <a href="https://github.com/EbookFoundation/free-programming-books" target="_blank">
-    Visit the Free Programming Books Repository on GitHub
-  </a>
-</footer>
+<script>
+// Simulated book data (from GitHub list)
+const books = [
+  { title: "Automate the Boring Stuff with Python", language: "Python", url: "https://automatetheboringstuff.com/" },
+  { title: "Eloquent JavaScript", language: "JavaScript", url: "https://eloquentjavascript.net/" },
+  { title: "The Java™ Tutorials", language: "Java", url: "https://docs.oracle.com/javase/tutorial/" },
+  { title: "Learn C++", language: "C++", url: "https://www.learncpp.com/" },
+  { title: "Go by Example", language: "Go", url: "https://gobyexample.com/" },
+  { title: "Think Python", language: "Python", url: "https://greenteapress.com/wp/think-python-2e/" }
+];
+
+function renderBooks(language) {
+  const bookList = document.getElementById("bookList");
+  bookList.innerHTML = "";
+
+  const filtered = language === "All"
+    ? books
+    : books.filter(book => book.language === language);
+
+  if (filtered.length === 0) {
+    bookList.innerHTML = `<p class="text-center">No books found for ${language}.</p>`;
+    return;
+  }
+
+  filtered.forEach(book => {
+    const card = document.createElement("div");
+    card.className = "col-md-4 mb-4";
+    card.innerHTML = `
+      <div class="card h-100 shadow-sm">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">${book.title}</h5>
+          <p class="card-text">Language: ${book.language}</p>
+          <a href="${book.url}" target="_blank" class="mt-auto btn btn-outline-primary">Read Now</a>
+        </div>
+      </div>
+    `;
+    bookList.appendChild(card);
+  });
+}
+
+document.getElementById("languageFilter").addEventListener("change", (e) => {
+  renderBooks(e.target.value);
+});
+
+window.onload = () => {
+  renderBooks("All");
+};
+</script>
+
+</body>
+</html>
